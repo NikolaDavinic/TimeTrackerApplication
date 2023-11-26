@@ -1,98 +1,95 @@
-import { Box, Button, Menu, MenuItem } from '@mui/material';
-import Icon from '@mui/material/Icon';
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { useAuthContext } from '../../contexts/auth.context';
-import MatIcon from '../MatIcon/MatIcon';
-import './Sidebar.scss';
+import { Box, Button, Icon, Menu, MenuItem } from "@mui/material";
+import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import './Sidebar.scss'
 
-const Sidebar = (props: any) => {
+const Sidebar = ({ children }: any) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const userOptionsOpen = Boolean(anchorEl);
 
-  const { signout } = useAuthContext();
-
   const handleLogout = () => {
-    signout();
+    console.log("Logout success");
+  }
+
+  useEffect(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
   return (
-    <div className='sidebar-content'>
-      <nav className='sidebar' style={{ position: 'sticky', top: 0 }}>
+    <div className="sidebar-content">
+      <nav className="sidebar" style={{ position: "sticky", top: 0 }}>
         <ul>
           <li>
-            <NavLink to='/'>
+            <NavLink to="/">
               {({ isActive }) => (
-                <Icon sx={{ fontSize: 35 }} className={`icon ${isActive ? 'active' : undefined}`}>
+                <Icon
+                  sx={{ fontSize: 35 }}
+                  className={`icon ${isActive ? "active" : undefined}`}
+                >
                   home
                 </Icon>
               )}
             </NavLink>
           </li>
           <li>
-            <NavLink to='/dashboard'>
+            <NavLink to="/dashboard">
               {({ isActive }) => (
-                <Icon sx={{ fontSize: 35 }} className={`icon ${isActive ? 'active' : undefined}`}>
-                  query_stats
+                <Icon
+                  sx={{ fontSize: 35 }}
+                  className={`icon ${isActive ? "active" : undefined}`}
+                >
+                  dashboard
                 </Icon>
               )}
             </NavLink>
           </li>
           <li>
-            <NavLink to='/map'>
+            <NavLink to="/projects">
               {({ isActive }) => (
-                <Icon sx={{ fontSize: 35 }} className={`icon ${isActive ? 'active' : undefined}`}>
-                  map
+                <Icon
+                  sx={{ fontSize: 35 }}
+                  className={`icon ${isActive ? "active" : undefined}`}
+                >
+                  article
                 </Icon>
               )}
             </NavLink>
           </li>
           <li>
-            <NavLink to='/machines'>
+            <NavLink to="/clients">
               {({ isActive }) => (
-                <MatIcon
-                  style={{ fontSize: 35 }}
-                  className={`icon ${isActive ? 'active' : undefined}`}>
-                  agriculture
-                </MatIcon>
-              )}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to='/plots'>
-              {({ isActive }) => (
-                <Icon sx={{ fontSize: 35 }} className={`icon ${isActive ? 'active' : undefined}`}>
-                  grass
+                <Icon
+                  sx={{ fontSize: 35 }}
+                  className={`icon ${isActive ? "active" : undefined}`}
+                >
+                  person
                 </Icon>
               )}
             </NavLink>
           </li>
         </ul>
-        <Button onClick={e => setAnchorEl(e.currentTarget)}>
-          <Icon sx={{ fontSize: 35 }} className='icon'>
-            person
+        <Button onClick={(e) => setAnchorEl(e.currentTarget)}>
+          <Icon sx={{ fontSize: 35 }} className="icon">
+            portrait
           </Icon>
         </Button>
         <Menu
           anchorEl={anchorEl}
           onClose={() => setAnchorEl(null)}
           open={userOptionsOpen}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
           transformOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}>
+            vertical: 'top',
+            horizontal: 'right'
+          }}
+        >
           <MenuItem onClick={handleLogout}>
-            <Icon className='icon'>logout</Icon>Logout
+            <Icon className="icon">logout</Icon>Logout
           </MenuItem>
         </Menu>
       </nav>
-      <Box className='content' sx={{ overflow: 'auto', height: '100vh' }}>
-        {props.children}
+      <Box className="content" sx={{overflow: 'auto', height: '100vh'}}>
+        {children}
       </Box>
     </div>
   );
