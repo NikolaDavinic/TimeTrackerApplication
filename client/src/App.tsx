@@ -6,6 +6,9 @@ import Home from "./pages/Home/Home";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Projects from "./pages/Projects/Projects";
 import Clients from "./pages/Clients/Clients";
+import Tags from "./pages/Tags/Tags";
+import Calendar from "./pages/Calendar/Calendar";
+import SingIn from "./pages/SignIn/SingIn";
 
 const theme = createTheme({
   palette: {
@@ -33,7 +36,10 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />}></Route>
             <Route path="/projects" element={<Projects />}></Route>
             <Route path="/clients" element={<Clients />}></Route>
+            <Route path="/tags" element={<Tags />}></Route>
+            <Route path="/calendar" element={<Calendar />}></Route>
           </Route>
+          <Route path="/signin" element={<SingIn />}></Route>
         </Routes>
       </Box>
     </ThemeProvider>

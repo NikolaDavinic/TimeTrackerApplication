@@ -67,6 +67,30 @@ const Sidebar = ({ children }: any) => {
               )}
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/tags">
+              {({ isActive }) => (
+                <Icon
+                  sx={{ fontSize: 35 }}
+                  className={`icon ${isActive ? "active" : undefined}`}
+                >
+                  sell
+                </Icon>
+              )}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/calendar">
+              {({ isActive }) => (
+                <Icon
+                  sx={{ fontSize: 35 }}
+                  className={`icon ${isActive ? "active" : undefined}`}
+                >
+                  calendar_month
+                </Icon>
+              )}
+            </NavLink>
+          </li>
         </ul>
         <Button onClick={(e) => setAnchorEl(e.currentTarget)}>
           <Icon sx={{ fontSize: 35 }} className="icon">

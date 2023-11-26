@@ -25,6 +25,12 @@ const BottomNav = ({ children }: any) => {
       case 3:
         navigate("/clients");
         break;
+      case 4:
+        navigate("/tags");
+        break;
+      case 5:
+        navigate("/calendar");
+        break;
     }
   }, [value, navigate]);
 
@@ -56,6 +62,14 @@ const BottomNav = ({ children }: any) => {
           <BottomNavigationAction
             label="Clients"
             icon={<Icon sx={{ fontSize: 35 }}>person</Icon>}
+          />
+          <BottomNavigationAction
+            label="Tags"
+            icon={<Icon sx={{ fontSize: 35 }}>sell</Icon>}
+          />
+          <BottomNavigationAction
+            label="Calendar"
+            icon={<Icon sx={{ fontSize: 35 }}>calendar_month </Icon>}
           />
         </BottomNavigation>
       </Box>
