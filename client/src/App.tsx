@@ -9,6 +9,7 @@ import Clients from "./pages/Clients/Clients";
 import Tags from "./pages/Tags/Tags";
 import Calendar from "./pages/Calendar/Calendar";
 import SingIn from "./pages/SignIn/SingIn";
+import SignUp from "./pages/SignUp/SignUp";
 
 const theme = createTheme({
   palette: {
@@ -28,7 +29,7 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Box>
+      <Box sx={{height: "100vh"}}>
         <Routes>
           <Route element={<Navigation />}>
             <Route path="" element={<Navigate to="/home"></Navigate>}></Route>
@@ -40,6 +41,7 @@ function App() {
             <Route path="/calendar" element={<Calendar />}></Route>
           </Route>
           <Route path="/signin" element={<SingIn />}></Route>
+          <Route path="/signup" element={<SignUp />}></Route>
         </Routes>
       </Box>
     </ThemeProvider>

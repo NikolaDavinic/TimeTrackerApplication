@@ -51,7 +51,7 @@ const SingIn = () => {
         {isLoading && <LinearProgress></LinearProgress>}
         <Grid className="flex-end">
           <Box>
-            You don't have account? <Link to="/">Registrtacia</Link>
+            You don't have account? <Link to="/">Sing up</Link>
           </Box>
         </Grid>
       </Stack>
