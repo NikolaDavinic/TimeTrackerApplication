@@ -136,13 +136,45 @@ namespace webapi.Controllers
                 await context.SaveChangesAsync();
 
                 return Ok(clientForChange);
-
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
 
+        }
+
+        [HttpPut]
+        [Route("/")]
+        public async Task<ActionResult> EditClient([FromBody] EditClientDTO clientBody)
+        {
+            try
+            {
+                if (clientBody == null)
+                {
+                    return BadRequest("Invalid data!");
+                }
+
+                var clientForChange = await context.Clients.Where(client => client.Id == clientBody.Id).FirstOrDefaultAsync();
+
+                if(clientForChange == null)
+                {
+                    return NotFound("Client with this id not exist!");
+                }
+
+                clientForChange.Name = clientBody.Name;
+                clientForChange.Email = clientBody.Email;
+                clientForChange.Address = clientBody.Address;
+                clientForChange.Note = clientBody.Note;
+                context.Clients.Update(clientForChange);
+                await context.SaveChangesAsync();
+
+                return Ok(clientForChange);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         #endregion
