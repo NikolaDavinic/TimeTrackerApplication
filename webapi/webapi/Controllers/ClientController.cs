@@ -1,27 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using webapi.DTO;
+using webapi.DTO.ClientDTOs;
 using webapi.Models;
 
 namespace webapi.Controllers
 {
     [ApiController]
-    [Route("client")]
+    [Route("clients")]
     public class ClientController : Controller
     {
         public TimeTrackerDbContext context { get; set; }
-        private readonly ILogger<ClientController> _logger;
+        private readonly ILogger<ClientController> logger;
 
-        public ClientController(ILogger<ClientController> logger, TimeTrackerDbContext context)
+        public ClientController(ILogger<ClientController> _logger, TimeTrackerDbContext _context)
         {
-            _logger = logger;
-            context = context;
+            logger = _logger;
+            context = _context;
         }
 
         #region GET
 
         [HttpGet]
-        [Route("/")]
+        [Route("")]
         public async Task<ActionResult> GetAllClients()
         {
             var clients = await context.Clients.ToListAsync();
@@ -35,10 +35,10 @@ namespace webapi.Controllers
         }
 
         [HttpGet]
-        [Route("/archived")]
+        [Route("archived")]
         public async Task<ActionResult> GetArchivedClients()
         {
-            var archivedClient = await context.Clients.Where(client => client.Archived == true).ToListAsync();
+            var archivedClient = await context.Clients.Where(client => client.IsArchived == true).ToListAsync();
 
             if(archivedClient == null)
             {
@@ -49,10 +49,10 @@ namespace webapi.Controllers
         }
 
         [HttpGet]
-        [Route("/active")]
+        [Route("active")]
         public async Task<ActionResult> GetActiveClients()
         {
-            var activeClients = await context.Clients.Where(client => client.Archived == false).ToListAsync();
+            var activeClients = await context.Clients.Where(client => client.IsArchived == false).ToListAsync();
 
             if(activeClients == null)
             {
@@ -63,7 +63,7 @@ namespace webapi.Controllers
         }
 
         [HttpGet]
-        [Route("/filteredByName/{pattern}")]
+        [Route("filteredByName/{pattern}")]
         public async Task<ActionResult> GetClientsFilteredByName(string pattern)
         {
             var filteredClients = await context.Clients.Where(client => client.Name.Contains(pattern)).ToListAsync();
@@ -76,24 +76,38 @@ namespace webapi.Controllers
             return Ok(filteredClients);
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult> GetClientById(int id)
+        {
+            var clientById = await context.Clients.Where(client => client.Id == id).FirstOrDefaultAsync();
+
+            if(clientById == null)
+            {
+                return NotFound("Client with this id not exist!");
+            }
+
+            return Ok(clientById);
+        }
+
         #endregion
 
         #region POST
 
         [HttpPost]
-        [Route("/")]
+        [Route("")]
         public async Task<ActionResult> AddClient([FromBody] AddClientDTO clientBody)
         {
             try
             {
                 if(clientBody == null)
                 {
-                    return BadRequest("Invalid data!");
+                    return BadRequest("Invalid parameters!");
                 }
 
                 Client client = new Client();
                 client.Name = clientBody.Name;
-                client.Archived = false;
+                client.IsArchived = false;
                 client.Address = string.Empty;
                 client.Email = string.Empty;
                 client.Note = string.Empty;
@@ -116,7 +130,7 @@ namespace webapi.Controllers
         #region PUT
 
         [HttpPut]
-        [Route("/changeStatus/{id}")]
+        [Route("changeStatus/{clientId}")]
         public async Task<ActionResult> ChangeClientStatus(int clientId)
         {
             try
@@ -128,9 +142,9 @@ namespace webapi.Controllers
                     return NotFound("Element not exist!");
                 }
 
-                Console.WriteLine(clientForChange.Archived);
-                clientForChange.Archived = !clientForChange.Archived;
-                Console.WriteLine(clientForChange.Archived);
+                Console.WriteLine(clientForChange.IsArchived);
+                clientForChange.IsArchived = !clientForChange.IsArchived;
+                Console.WriteLine(clientForChange.IsArchived);
 
                 context.Clients.Update(clientForChange);
                 await context.SaveChangesAsync();
@@ -145,7 +159,7 @@ namespace webapi.Controllers
         }
 
         [HttpPut]
-        [Route("/")]
+        [Route("")]
         public async Task<ActionResult> EditClient([FromBody] EditClientDTO clientBody)
         {
             try
@@ -183,7 +197,7 @@ namespace webapi.Controllers
 
         //morace da se zameni kada dodam za projekte jer mora i tamo da se obrise isto
         [HttpDelete]
-        [Route("/")]
+        [Route("")]
         public async Task<ActionResult> DeleteClient(int id)
         {
             try

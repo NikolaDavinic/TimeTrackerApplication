@@ -1,17 +1,28 @@
-﻿namespace webapi.Models
+﻿
+using System.ComponentModel.DataAnnotations;
+
+namespace webapi.Models
 {
     public class Client
     {
+        [Key]
         public int Id { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        [Required]
+        [MaxLength(40)]
+        public string Name { get; set; }
 
-        public string Email { get; set; } = string.Empty;
+        [MaxLength(50)]
+        public string? Email { get; set; }
 
-        public string? Address { get; set; } = string.Empty;
+        [MaxLength(40)]
+        public string? Address { get; set; }
 
-        public string? Note { get; set; } = string.Empty;
+        [MaxLength(100)]
+        public string? Note { get; set; }
 
-        public bool Archived { get; set; } = false;
+        public bool IsArchived { get; set; }
+
+        public List<Project>? Projects { get; set; } = new List<Project>();
     }
 }

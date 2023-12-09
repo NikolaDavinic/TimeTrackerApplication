@@ -1,20 +1,37 @@
-﻿namespace webapi.Models
+﻿
+
+using System.ComponentModel.DataAnnotations;
+
+namespace webapi.Models
 {
     public class Project
     {
+        [Key]
         public int Id { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        [Required]
+        public User User { get; set; }
 
-        public string? Description { get; set; } = string.Empty;
+        [Required]
+        [MaxLength(40)]
+        public string Name { get; set; }
 
-        public bool Archived { get; set; } = false;
+        public string? Description { get; set; }
 
-        public Client? ClientId { get; set; } = null;
+        public bool IsArchived { get; set; }
 
-        public bool Favourite { get; set; } = false;
+        public Client? Client { get; set; }
 
-        public List<ProjectTask> TasksIds { get; set; } = new List<ProjectTask>();
+        public bool IsFavourite { get; set; }
+
+        public List<ProjectTask>? Tasks { get; set; }
+
+        public bool IsBillable { get; set; }
+
+        [Required]
+        public int BillablePerHour { get; set; }
+
+        public List<TimeRecord>? RecordingTimes { get; set; }
 
         //public List<User> AccessUsers { get; set; }
     }

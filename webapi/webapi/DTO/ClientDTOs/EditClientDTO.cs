@@ -1,4 +1,4 @@
-﻿namespace webapi.DTO
+﻿namespace webapi.DTO.ClientDTOs
 {
     public class EditClientDTO
     {
